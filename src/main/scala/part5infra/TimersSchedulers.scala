@@ -13,21 +13,21 @@ object TimersSchedulers extends App {
   }
 
   val system = ActorSystem("SchedulersTimersDemo")
-//  val simpleActor = system.actorOf(Props[SimpleActor])
+  val simpleActor = system.actorOf(Props[SimpleActor])
 
-//  system.log.info("Scheduling reminder for simpleActor")
+  system.log.info("Scheduling reminder for simpleActor")
 
   import system.dispatcher
 
-//  system.scheduler.scheduleOnce(1 second) {
+//  system.scheduler.scheduleOnce(3 second) {
 //    simpleActor ! "reminder"
 //  }
 //
-//  val routine: Cancellable = system.scheduler.schedule(1 second, 2 seconds) {
+//  val routine: Cancellable = system.scheduler.schedule(5 second, 5 seconds) {
 //    simpleActor ! "heartbeat"
 //  }
 //
-//  system.scheduler.scheduleOnce(5 seconds) {
+//  system.scheduler.scheduleOnce(7 seconds) {
 //    routine.cancel()
 //  }
 
@@ -93,9 +93,9 @@ object TimersSchedulers extends App {
     }
   }
 
-  val timerHeartbeatActor = system.actorOf(Props[TimerBasedHeartbeatActor], "timerActor")
-  system.scheduler.scheduleOnce(5 seconds) {
-    timerHeartbeatActor ! Stop
-  }
+//  val timerHeartbeatActor = system.actorOf(Props[TimerBasedHeartbeatActor], "timerActor")
+//  system.scheduler.scheduleOnce(5 seconds) {
+//    timerHeartbeatActor ! Stop
+//  }
 
 }

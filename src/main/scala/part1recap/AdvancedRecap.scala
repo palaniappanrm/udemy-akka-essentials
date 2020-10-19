@@ -11,6 +11,8 @@ object AdvancedRecap extends App {
     case 5 => 999
   }
 
+//  partialFunction(100) // match error
+
   val pf = (x: Int) => x match {
     case 1 => 42
     case 2 => 65
@@ -36,7 +38,7 @@ object AdvancedRecap extends App {
 
   pfChain(5) // 999 per partialFunction
   pfChain(60) // 9000
-  pfChain(457) // throw a MatchError
+//  pfChain(457) // throw a MatchError
 
   // type aliases
   type ReceiveFunction = PartialFunction[Any, Unit]
@@ -45,6 +47,8 @@ object AdvancedRecap extends App {
     case 1 => println("hello")
     case _ => println("confused....")
   }
+
+  receive(1)
 
   // implicits
 

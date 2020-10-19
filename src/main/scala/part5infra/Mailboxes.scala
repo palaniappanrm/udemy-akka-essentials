@@ -1,6 +1,6 @@
 package part5infra
 
-import akka.actor.{Actor, ActorLogging, ActorSystem, PoisonPill, Props}
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 import akka.dispatch.{ControlMessage, PriorityGenerator, UnboundedPriorityMailbox}
 import com.typesafe.config.{Config, ConfigFactory}
 
@@ -37,9 +37,9 @@ object Mailboxes extends App {
   // step 3 - attach the dispatcher to an actor
 
   val supportTicketLogger = system.actorOf(Props[SimpleActor].withDispatcher("support-ticket-dispatcher"))
-  supportTicketLogger ! "[P3] this thing would be nice to have"
-  supportTicketLogger ! "[P0] this needs to be solved NOW!"
-  supportTicketLogger ! "[P1] do this when you have the time"
+//  supportTicketLogger ! "[P3] this thing would be nice to have"
+//  supportTicketLogger ! "[P0] this needs to be solved NOW!"
+//  supportTicketLogger ! "[P1] do this when you have the time"
 
   // after which time can I send another message and be prioritized accordingly?
 
@@ -56,13 +56,13 @@ object Mailboxes extends App {
    */
   // method #1
   val controlAwareActor = system.actorOf(Props[SimpleActor].withMailbox("control-mailbox"))
-//  controlAwareActor ! "[P0] this needs to be solved NOW!"
 //  controlAwareActor ! "[P1] do this when you have the time"
+//  controlAwareActor ! "[P0] this needs to be solved NOW!"
 //  controlAwareActor ! ManagementTicket
 
   // method #2 - using deployment config
   val altControlAwareActor = system.actorOf(Props[SimpleActor], "altControlAwareActor")
-  altControlAwareActor ! "[P0] this needs to be solved NOW!"
   altControlAwareActor ! "[P1] do this when you have the time"
+  altControlAwareActor ! "[P0] this needs to be solved NOW!"
   altControlAwareActor ! ManagementTicket
 }

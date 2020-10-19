@@ -1,10 +1,8 @@
 package part5infra
 
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
-import com.typesafe.config.ConfigFactory
 
 import scala.concurrent.{ExecutionContext, Future}
-import scala.util.Random
 
 object Dispatchers extends App {
 

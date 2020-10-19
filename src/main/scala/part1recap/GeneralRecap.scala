@@ -1,6 +1,6 @@
 package part1recap
 
-import scala.util.Try
+import scala.util.{Failure, Success, Try}
 
 object GeneralRecap extends App {
 
@@ -82,6 +82,7 @@ object GeneralRecap extends App {
   // incrementer.apply(42)
 
   val anonymousIncrementer = (x: Int) => x + 1
+  anonymousIncrementer(1)
   // Int => Int === Function1[Int, Int]
 
   // FP is all about working with functions as first-class
@@ -94,7 +95,8 @@ object GeneralRecap extends App {
     char <- List('a', 'b', 'c', 'd')
   } yield num + "-" + char
 
-  // List(1,2,3,4).flatMap(num => List('a', 'b', 'c', 'd').map(char => num + "-" + char))
+   val combinations = List(1,2,3,4).flatMap(num => List('a', 'b', 'c', 'd').map(char => num + "-" + char))
+  println(combinations)
 
   // Seq, Array, List, Vector, Map, Tuples, Sets
 
@@ -103,6 +105,15 @@ object GeneralRecap extends App {
   val anOption = Some(2)
   val aTry = Try {
     throw new RuntimeException
+  }
+
+  aTry match {
+    case Success(value) => {
+      println(value)
+    }
+    case Failure(exception) => {
+      println(exception)
+    }
   }
 
   // pattern matching

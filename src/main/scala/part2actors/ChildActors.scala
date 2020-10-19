@@ -12,7 +12,7 @@ object ChildActors extends App {
     case class TellChild(message: String)
   }
   class Parent extends Actor {
-    import Parent._
+     import Parent._
 
     override def receive: Receive = {
       case CreateChild(name) =>
@@ -54,7 +54,7 @@ object ChildActors extends App {
   /**
     * Actor selection
     */
-  val childSelection = system.actorSelection("/user/parent/child2")
+  val childSelection = system.actorSelection("/user/parent/child")
   childSelection ! "I found you!"
 
   /**
@@ -72,8 +72,8 @@ object ChildActors extends App {
     case object InitializeAccount
   }
   class NaiveBankAccount extends Actor {
-    import NaiveBankAccount._
     import CreditCard._
+    import NaiveBankAccount._
 
     var amount = 0
 
@@ -113,8 +113,8 @@ object ChildActors extends App {
     }
   }
 
-  import NaiveBankAccount._
   import CreditCard._
+  import NaiveBankAccount._
 
   val bankAccountRef = system.actorOf(Props[NaiveBankAccount], "account")
   bankAccountRef ! InitializeAccount

@@ -1,6 +1,6 @@
 package part4faulttolerance
 
-import akka.actor.{Actor, ActorLogging, ActorSystem, PoisonPill, Props}
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 
 object ActorLifecycle extends App {
 
@@ -54,6 +54,7 @@ object ActorLifecycle extends App {
       case Fail =>
         log.warning("child will fail now")
         throw new RuntimeException("I failed")
+//        context.stop(self)
       case Check =>
         log.info("alive and kicking")
     }
@@ -63,5 +64,8 @@ object ActorLifecycle extends App {
   supervisor ! FailChild
   supervisor ! CheckChild
 
+//  val child = system.actorOf(Props[Child], "supervisedChild")
+//  child ! Fail
+//  child ! Fail
   // supervision strategy
 }

@@ -11,10 +11,10 @@ object MultithreadingRecap extends App {
   aThread.start()
   aThread.join()
 
-  val threadHello = new Thread(() => (1 to 1000).foreach(_ => println("hello")))
-  val threadGoodbye = new Thread(() => (1 to 1000).foreach(_ => println("goodbye")))
-  threadHello.start()
-  threadGoodbye.start()
+//  val threadHello = new Thread(() => (1 to 1000).foreach(_ => println("hello")))
+//  val threadGoodbye = new Thread(() => (1 to 1000).foreach(_ => println("goodbye")))
+//  threadHello.start()
+//  threadGoodbye.start()
 
   // different runs produce different results!
 
@@ -66,11 +66,16 @@ object MultithreadingRecap extends App {
 
   val filteredFuture = future.filter(_ % 2 == 0) // NoSuchElementException
 
+  filteredFuture.map(println)
+
   // for comprehensions
   val aNonsenseFuture = for {
     meaningOfLife <- future
     filteredMeaning <- filteredFuture
   } yield meaningOfLife + filteredMeaning
+
+  Thread.sleep(1000)
+  aNonsenseFuture.map(println)
 
   // andThen, recover/recoverWith
 

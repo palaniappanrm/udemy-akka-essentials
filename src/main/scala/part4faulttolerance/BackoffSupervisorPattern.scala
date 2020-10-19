@@ -27,14 +27,14 @@ object BackoffSupervisorPattern extends App {
     override def receive: Receive = {
       case ReadFile =>
         if (dataSource == null)
-          dataSource = Source.fromFile(new File("src/main/resources/testfiles/important_data.txt"))
+          dataSource = Source.fromFile(new File("/Users/palaniappan/personal_projects/udemy-akka-essentials/src/main/resources/testfiles/important_data.txt"))
         log.info("I've just read some IMPORTANT data: " + dataSource.getLines().toList)
     }
   }
 
   val system = ActorSystem("BackoffSupervisorDemo")
-//  val simpleActor = system.actorOf(Props[FileBasedPersistentActor], "simpleActor")
-//  simpleActor ! ReadFile
+  val simpleActor = system.actorOf(Props[FileBasedPersistentActor], "simpleActor")
+  simpleActor ! ReadFile
 
   val simpleSupervisorProps = BackoffSupervisor.props(
     Backoff.onFailure(
@@ -46,8 +46,8 @@ object BackoffSupervisorPattern extends App {
     )
   )
 
-//  val simpleBackoffSupervisor = system.actorOf(simpleSupervisorProps, "simpleSupervisor")
-//  simpleBackoffSupervisor ! ReadFile
+  val simpleBackoffSupervisor = system.actorOf(simpleSupervisorProps, "simpleSupervisor")
+  simpleBackoffSupervisor ! ReadFile
 
   /*
     simpleSupervisor
@@ -71,17 +71,17 @@ object BackoffSupervisorPattern extends App {
     )
   )
 
-//  val stopSupervisor = system.actorOf(stopSupervisorProps, "stopSupervisor")
-//  stopSupervisor ! ReadFile
+  val stopSupervisor = system.actorOf(stopSupervisorProps, "stopSupervisor")
+  stopSupervisor ! ReadFile
 
    class EagerFBPActor extends FileBasedPersistentActor {
      override def preStart(): Unit = {
        log.info("Eager actor starting")
-       dataSource = Source.fromFile(new File("src/main/resources/testfiles/important_data.txt"))
+       dataSource = Source.fromFile(new File("/Users/palaniappan/personal_projects/udemy-akka-essentials/src/main/resources/testfiles/important_data.txt"))
      }
    }
 
-  // ActorInitializationException => STOP
+//   ActorInitializationException => STOP
 
   val repeatedSupervisorProps = BackoffSupervisor.props(
     Backoff.onStop(

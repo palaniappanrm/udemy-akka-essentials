@@ -1,7 +1,6 @@
 package part5infra
 
 import akka.actor.{Actor, ActorLogging, ActorSystem, Props, Terminated}
-import akka.io.Udp.SO
 import akka.routing._
 import com.typesafe.config.ConfigFactory
 
@@ -72,10 +71,10 @@ object Routers extends App {
   val slaveList = (1 to 5).map(i => system.actorOf(Props[Slave], s"slave_$i")).toList
 
   // need their paths
-  val slavePaths = slaveList.map(slaveRef => slaveRef.path.toString)
+//  val slavePaths = slaveList.map(slaveRef => slaveRef.path.toString)
 
   // 3.1 in the code
-  val groupMaster = system.actorOf(RoundRobinGroup(slavePaths).props())
+//  val groupMaster = system.actorOf(RoundRobinGroup(slavePaths).props())
 //  for (i <- 1 to 10) {
 //    groupMaster ! s"[$i] Hello from the world"
 //  }

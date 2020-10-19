@@ -1,6 +1,6 @@
 package part6patterns
 
-import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
+import akka.actor.{Actor, ActorLogging, ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestKit}
 import akka.util.Timeout
 import org.scalatest.{BeforeAndAfterAll, WordSpecLike}
@@ -10,8 +10,7 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 // step 1 - import the ask pattern
-import akka.pattern.ask
-import akka.pattern.pipe
+import akka.pattern.{ask, pipe}
 
 class AskSpec extends TestKit(ActorSystem("AskSpec"))
   with ImplicitSender with WordSpecLike with BeforeAndAfterAll {
@@ -107,6 +106,9 @@ object AskSpec {
         // step 5 most important
         // NEVER CALL METHODS ON THE ACTOR INSTANCE OR ACCESS MUTABLE STATE IN ONCOMPLETE.
         // avoid closing over the actor instance or mutable state
+
+        // shouldn't call sender()
+
         case Success(None) => originalSender ! AuthFailure(AUTH_FAILURE_NOT_FOUND)
         case Success(Some(dbPassword)) =>
           if (dbPassword == password) originalSender ! AuthSuccess

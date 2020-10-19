@@ -1,6 +1,7 @@
 package part4faulttolerance
 
-import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Kill, PoisonPill, Props, Terminated}
+import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, PoisonPill, Props, Terminated}
+import part4faulttolerance.StartingStoppingActors.Parent.StartChild
 
 object StartingStoppingActors extends App {
 
@@ -42,14 +43,13 @@ object StartingStoppingActors extends App {
   /**
     * method #1 - using context.stop
     */
-  import Parent._
 //  val parent = system.actorOf(Props[Parent], "parent")
 //  parent ! StartChild("child1")
 //  val child = system.actorSelection("/user/parent/child1")
 //  child ! "hi kid!"
 //
 //  parent ! StopChild("child1")
-////  for (_ <- 1 to 50) child ! "are you still there?"
+//    for (_ <- 1 to 50) child ! "are you still there?"
 //
 //  parent ! StartChild("child2")
 //  val child2 = system.actorSelection("user/parent/child2")

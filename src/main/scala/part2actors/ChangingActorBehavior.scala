@@ -1,10 +1,8 @@
 package part2actors
 
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
-import part2actors.ChangingActorBehavior.Mom.MomStart
 
 object ChangingActorBehavior extends App {
-
 
   object FussyKid {
     case object KidAccept
@@ -54,8 +52,8 @@ object ChangingActorBehavior extends App {
     val CHOCOLATE = "chocolate"
   }
   class Mom extends Actor {
-    import Mom._
     import FussyKid._
+    import Mom._
 
     override def receive: Receive = {
       case MomStart(kidRef) =>
@@ -75,7 +73,7 @@ object ChangingActorBehavior extends App {
   val statelessFussyKid = system.actorOf(Props[StatelessFussyKid])
   val mom = system.actorOf(Props[Mom])
 
-  mom ! MomStart(statelessFussyKid)
+//  mom ! MomStart(statelessFussyKid)
 
   /*
     mom receives MomStart
@@ -135,13 +133,11 @@ object ChangingActorBehavior extends App {
       case Print => println(s"[countReceive($currentCount)] my current count is $currentCount")
     }
   }
-
-  import Counter._
   val counter = system.actorOf(Props[Counter], "myCounter")
 
-  (1 to 5).foreach(_ => counter ! Increment)
-  (1 to 3).foreach(_ => counter ! Decrement)
-  counter ! Print
+//  (1 to 5).foreach(_ => counter ! Increment)
+//  (1 to 3).foreach(_ => counter ! Decrement)
+//  counter ! Print
 
   /**
     * Exercise 2 - a simplified voting system
@@ -152,12 +148,21 @@ object ChangingActorBehavior extends App {
   case class VoteStatusReply(candidate: Option[String])
   class Citizen extends Actor {
     override def receive: Receive = {
-      case Vote(c) => context.become(voted(c))
-      case VoteStatusRequest => sender() ! VoteStatusReply(None)
+      case Vote(c) => {
+        println(c)
+        context.become(voted(c))
+      }
+      case VoteStatusRequest => {
+        println("top")
+        sender() ! VoteStatusReply(None)
+      }
     }
 
     def voted(candidate: String): Receive = {
-      case VoteStatusRequest => sender() ! VoteStatusReply(Some(candidate))
+      case VoteStatusRequest => {
+        println("bottom")
+        sender() ! VoteStatusReply(Some(candidate))
+      }
     }
   }
 
@@ -193,11 +198,14 @@ object ChangingActorBehavior extends App {
   val charlie = system.actorOf(Props[Citizen])
   val daniel = system.actorOf(Props[Citizen])
 
+//  alice ! VoteStatusRequest
   alice ! Vote("Martin")
+//  alice ! Vote("Martin")
+//  alice ! VoteStatusRequest
   bob ! Vote("Jonas")
   charlie ! Vote("Roland")
   daniel ! Vote("Roland")
-
+//
   val voteAggregator = system.actorOf(Props[VoteAggregator])
   voteAggregator ! AggregateVotes(Set(alice, bob, charlie, daniel))
 
